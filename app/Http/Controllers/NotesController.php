@@ -13,7 +13,7 @@ class NotesController extends Controller
      */
     public function index()
     {
-        return Notes::all();
+        return response()->json(Notes::all());
     }
 
     /**
@@ -21,7 +21,7 @@ class NotesController extends Controller
      */
     public function create()
     {
-        //
+        return view('notes.create');
     }
 
     /**
@@ -29,15 +29,18 @@ class NotesController extends Controller
      */
     public function store(StoreNotesRequest $request)
     {
-        //
+        $user = Auth::user();
+        
+        return $user->notes()->create($request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Notes $notes)
+    public function show($id)
     {
-        //
+        $note = Notes::find($id);
+        return response()->json($note);
     }
 
     /**
@@ -45,7 +48,7 @@ class NotesController extends Controller
      */
     public function edit(Notes $notes)
     {
-        //
+        return view('notes.edit',['note'=>$notes]);
     }
 
     /**
@@ -53,14 +56,18 @@ class NotesController extends Controller
      */
     public function update(UpdateNotesRequest $request, Notes $notes)
     {
-        //
+        $note =  Notes::findOrfail($notes);
+        $note->update($request->all());
+        return response()->json($note);   
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Notes $notes)
+    public function destroy($id)
     {
-        //
+        $note = Notes::findOrFail($id);
+        $note->delete();
+        return response()->setStatusCode(200)->json($note);
     }
 }

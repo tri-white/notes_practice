@@ -48,5 +48,8 @@ Route::middleware('auth')->get('/setup', function(){
         abort(404);
     }
 });
+Route::group(['namespace'=>'App\Http\Controllers', 'middleware'=>'auth'] , function(){
+    Route::resource("notes",NotesController::class);
+});
 
 require __DIR__.'/auth.php';

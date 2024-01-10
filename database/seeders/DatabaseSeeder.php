@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
             "email"=>"admin@admin.com",
             "password"=>Hash::make("password"),
         ]);*/
-        User::factory()->count(25)->create();
-        Notes::factory()->count(150)->create();
+       
+        $this->call([
+            UserSeeder::class,
+            NotesSeeder::class,
+        ]);
     }
 }
