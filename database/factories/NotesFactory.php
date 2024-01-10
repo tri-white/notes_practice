@@ -3,11 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\User;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class NoteFactory extends Factory
+class NotesFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,8 @@ class NoteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'text'=> fake()->text(50),
+            'user_id'=>User::factory(),
         ];
     }
 }
