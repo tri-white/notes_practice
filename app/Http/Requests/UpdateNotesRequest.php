@@ -23,7 +23,6 @@ class UpdateNotesRequest extends FormRequest
     {
         $rules = [
             'text' => 'required|string|max:5000',
-            'user_id' => 'required|integer|exists:users,id',
         ];
     }
 
@@ -33,9 +32,6 @@ class UpdateNotesRequest extends FormRequest
             'text.required' => 'Note cannot be empty',
             'text.string'  => 'Note cannot contain any data except of characters',
             'text.max'  => 'Note cannot be longer than 5000 characters long!',
-            'user_id.required'  => 'A date must be after or equal today',
-            'user_id.integer'  => 'This date doesn\'t exists',
-            'user_id.exists'  => 'This date doesn\'t exists',
         ];
     }
 }

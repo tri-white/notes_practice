@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateNotesRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\NotesResource;
 use App\Http\Resources\NotesCollection;
+use Illuminate\Support\Arr;
 class NotesController extends Controller
 {
     /**
@@ -33,7 +34,7 @@ class NotesController extends Controller
     public function store(StoreNotesRequest $request)
     {
         $user = Auth::user();
-        $note = $user->notes()->create($request->all());
+        $note = $user->notes()->create($request->validated());
 
         if ($request->ajax()) {
         return new NotesResource($note);
@@ -66,9 +67,9 @@ class NotesController extends Controller
     public function update(UpdateNotesRequest $request, Notes $notes)
     {
         $note =  Notes::findOrfail($notes);
-        $note->update($request->all());
+        $note->update(Arr::except($request->validated(), 'user_id'));
         if ($request->ajax()) {
-            return response()->json($note);   
+            return $note;    // no need for parsing into JSON, eloquent is automatically returned in JSON format
         }
         return redirect(route('notes.show',['id'=>$note->id]));
     }

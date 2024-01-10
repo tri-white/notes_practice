@@ -10,6 +10,13 @@ class Notes extends Model
     use HasFactory;
     protected $fillable = [
         "text",
+        'user_id',
+    ];
+    protected $hidden = [
+        // no hidden elements. hidden elements dont show when parsing eloqModel to JSON
+    ];
+    protected $guarded = [
+        // no guarded elements. there is nothing that can be exploited for external batch attacks in this model... or I am too naive
     ];
    /**
      * Get the user that owns the Notes

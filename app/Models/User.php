@@ -24,7 +24,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for serialization. (serialization = transforming object to JSON. it happens when you return ELOQUENT model)
      *
      * @var array<int, string>
      */
