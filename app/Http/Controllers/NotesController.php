@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Notes;
 use App\Http\Requests\StoreNotesRequest;
-use App\Http\Requests\UpdateNotesRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\NotesResource;
 use App\Http\Resources\NotesCollection;
@@ -64,7 +63,7 @@ class NotesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateNotesRequest $request, Notes $notes)
+    public function update(StoreNotesRequest $request, Notes $notes)
     {
         $note =  Notes::findOrfail($notes);
         $note->update(Arr::except($request->validated(), 'user_id'));

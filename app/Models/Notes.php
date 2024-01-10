@@ -9,15 +9,16 @@ class Notes extends Model
 {
     use HasFactory;
     protected $fillable = [
+            //can be mass assigned
         "text",
-        'user_id',
     ];
     protected $hidden = [
         //  hidden elements dont show when parsing eloqModel to JSON
         
     ];
     protected $guarded = [
-        // no guarded elements. there is nothing that can be exploited for external batch attacks in this model... or I am too naive
+        // guarding from mass alignment. user_id gets changed only when saving note
+        'user_id', // 
     ];
    /**
      * Get the user that owns the Notes
