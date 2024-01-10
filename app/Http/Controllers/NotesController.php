@@ -16,7 +16,7 @@ class NotesController extends Controller
     public function index()
     {
         $notes = Notes::all();
-        if ($request->ajax()) {
+        if (request()->ajax()) {
             return new NotesCollection($notes);
         }
 
@@ -48,7 +48,7 @@ class NotesController extends Controller
     public function show($id)
     {
         $note = Notes::findOrFail($id);
-        if ($request->ajax()) {
+        if (request()->ajax()) {
         return new NotesResource($note);
         }
 
@@ -80,7 +80,7 @@ class NotesController extends Controller
     {
         $note = Notes::findOrFail($id);
         $note->delete();
-        if ($request->ajax()) {
+        if (request()->ajax()) {
             return response()->json(['message'=>'deleted'],200);
         }
 

@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        if ($request->ajax()) {
+        if (request()->ajax()) {
         return new UserCollection(User::all());
         }
         return view('users.index');
@@ -26,7 +26,7 @@ class UserController extends Controller
     public function show($id)
     {
             $user = User::findOrFail($id);
-        if ($request->ajax()) {
+        if (request()->ajax()) {
             return new UserResource($user);
         }
         return view('users.show',['user' => $user]);
