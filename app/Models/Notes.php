@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Notes extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "text",
+    ];
    /**
      * Get the user that owns the Notes
      *
