@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\UserCollection;
 class UserController extends Controller
 {
     /**
@@ -15,9 +13,9 @@ class UserController extends Controller
     {
         $users = User::all();
         if (request()->ajax()) {
-        return new UserCollection(User::all());
+        return new $users;
         }
-        return view('users.index');
+        return view('users.index', ['users'=>$users]);
     }
 
     /**
@@ -27,7 +25,7 @@ class UserController extends Controller
     {
             $user = User::findOrFail($id);
         if (request()->ajax()) {
-            return new UserResource($user);
+            return new $user;
         }
         return view('users.show',['user' => $user]);
 
