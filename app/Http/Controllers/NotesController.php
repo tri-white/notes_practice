@@ -6,6 +6,8 @@ use App\Models\Notes;
 use App\Http\Requests\StoreNotesRequest;
 use App\Http\Requests\UpdateNotesRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\NotesResource;
+use App\Http\Resources\NotesCollection;
 class NotesController extends Controller
 {
     /**
@@ -13,15 +15,7 @@ class NotesController extends Controller
      */
     public function index()
     {
-        return response()->json(Notes::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('notes.create');
+        return new NotesCollection(Notes::all());
     }
 
     /**
@@ -39,16 +33,7 @@ class NotesController extends Controller
      */
     public function show($id)
     {
-        $note = Notes::find($id);
-        return response()->json($note);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Notes $notes)
-    {
-        return view('notes.edit',['note'=>$notes]);
+        return new NotesResource(Notes::findOrFail($id));
     }
 
     /**

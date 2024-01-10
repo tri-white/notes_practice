@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\UserResource;
+use App\Http\Resources\UserCollection;
 class UserController extends Controller
 {
     /**
@@ -12,15 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return new UserCollection(User::all());
     }
 
     /**
@@ -36,15 +29,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return User::findOrFail($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
+        return new UserResource(User::findOrFail($id));
     }
 
     /**
