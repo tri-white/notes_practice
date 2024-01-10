@@ -52,7 +52,7 @@ class NotesController extends Controller
         return new NotesResource($note);
         }
 
-        return view('notes.show', ['note'=>$note->id]);
+        return view('notes.show', ['note'=>$note]);
     }
 
     public function edit($id){
