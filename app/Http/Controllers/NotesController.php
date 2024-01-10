@@ -15,7 +15,16 @@ class NotesController extends Controller
      */
     public function index()
     {
-        return new NotesCollection(Notes::all());
+        $notes = Notes::all();
+        if ($request->ajax()) {
+            return new NotesCollection($notes);
+        }
+
+        return view('notes.index',['notes'=>$notes]);
+    }
+
+    public function create(){
+        return view('notes.create');
     }
 
     /**
@@ -24,8 +33,13 @@ class NotesController extends Controller
     public function store(StoreNotesRequest $request)
     {
         $user = Auth::user();
-        
-        return $user->notes()->create($request->all());
+        $note = $user->notes()->create($request->all());
+
+        if ($request->ajax()) {
+        return new NotesResource($note);
+        }
+
+        return redirect(route('notes.show',['id'=>$note->id]));
     }
 
     /**
@@ -33,9 +47,19 @@ class NotesController extends Controller
      */
     public function show($id)
     {
-        return new NotesResource(Notes::findOrFail($id));
+        $note = Notes::findOrFail($id);
+        if ($request->ajax()) {
+        return new NotesResource($note);
+        }
+
+        return view('notes.show', ['note'=>$note->id]);
     }
 
+    public function edit($id){
+        $note = Notes::findOrFail($id);
+
+        return view('notes.edit',['note'=>$note]);
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -43,7 +67,10 @@ class NotesController extends Controller
     {
         $note =  Notes::findOrfail($notes);
         $note->update($request->all());
-        return response()->json($note);   
+        if ($request->ajax()) {
+            return response()->json($note);   
+        }
+        return redirect(route('notes.show',['id'=>$note->id]));
     }
 
     /**
@@ -53,6 +80,10 @@ class NotesController extends Controller
     {
         $note = Notes::findOrFail($id);
         $note->delete();
-        return response()->setStatusCode(200)->json($note);
+        if ($request->ajax()) {
+            return response()->json(['message'=>'deleted'],200);
+        }
+
+        return redirect(route('notes.index'));
     }
 }

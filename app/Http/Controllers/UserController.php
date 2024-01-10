@@ -13,15 +13,11 @@ class UserController extends Controller
      */
     public function index()
     {
+        $users = User::all();
+        if ($request->ajax()) {
         return new UserCollection(User::all());
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        }
+        return view('users.index');
     }
 
     /**
@@ -29,22 +25,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return new UserResource(User::findOrFail($id));
-    }
+            $user = User::findOrFail($id);
+        if ($request->ajax()) {
+            return new UserResource($user);
+        }
+        return view('users.show',['user' => $user]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
     }
 }
