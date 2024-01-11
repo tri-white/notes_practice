@@ -9,6 +9,8 @@ use App\Http\Resources\NotesResource;
 use App\Http\Resources\NotesCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use App\Policies\NotesPolicy;
+use Illuminate\Support\Facades\Gate;
 class NotesController extends Controller
 {
     /**
@@ -16,7 +18,7 @@ class NotesController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny',Auth::user());
+        // $this->authorize('viewAny');
 
         $notes = Notes::all();
         
@@ -24,7 +26,7 @@ class NotesController extends Controller
             return new NotesCollection($notes);
         }
 
-        return view('notes.index',['notes'=>$notes]);
+        return $notes;
     }
 
     public function create(){
@@ -37,7 +39,7 @@ class NotesController extends Controller
      */
     public function store(StoreNotesRequest $request)
     {
-        $this->authorize('create',Auth::user());
+        // $this->authorize('create',Auth::user());
         $user = Auth::user();
         $note = $user->notes()->create($request->validated());
 
@@ -54,7 +56,7 @@ class NotesController extends Controller
     public function show($id)
     {
         $note = Notes::findOrFail($id);
-        $this->authorize('view',$note);
+        // $this->authorize('view',$note);
         if (request()->ajax()) {
         return new NotesResource($note);
         }
@@ -64,7 +66,7 @@ class NotesController extends Controller
 
     public function edit($id){
         $note = Notes::findOrFail($id);
-        $this->authorize('update',$note);
+        // $this->authorize('update',$note);
         return view('notes.edit',['note'=>$note]);
     }
     /**
@@ -73,7 +75,7 @@ class NotesController extends Controller
     public function update(StoreNotesRequest $request, Notes $notes)
     {
         $note =  Notes::findOrfail($notes);
-        $this->authorize('update',$note);
+        // $this->authorize('update',$note);
         $note->update(Arr::except($request->validated(), 'user_id'));
         if ($request->ajax()) {
             return $note;    // no need for parsing into JSON, eloquent is automatically returned in JSON format
@@ -87,7 +89,7 @@ class NotesController extends Controller
     public function destroy($id)
     {
         $note = Notes::findOrFail($id);
-        $this->authorize('delete',$note);
+        // $this->authorize('delete',$note);
         $note->delete();
         if (request()->ajax()) {
             return response()->json(['message'=>'deleted'],200);

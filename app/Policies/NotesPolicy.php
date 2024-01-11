@@ -5,15 +5,17 @@ namespace App\Policies;
 use App\Models\Notes;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class NotesPolicy
 {
+    
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return Auth::check() ?? false;
+        return Auth::check();
     }
     /**
      * Determine whether the user can view the model.
