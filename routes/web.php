@@ -50,7 +50,7 @@ Route::middleware('auth')->get('/setup', function(){
 });
 Route::group(['namespace'=>'App\Http\Controllers', 'middleware'=>'auth'] , function(){
     Route::resource("notes",NotesController::class);
-    Route::resource("users",UserController::class);
+    Route::resource("users",UserController::class, ['only' => ['index', 'show']]);
 });
 
 require __DIR__.'/auth.php';
