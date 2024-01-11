@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\NotesResource;
 use App\Http\Resources\NotesCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 class NotesController extends Controller
 {
     /**
@@ -16,6 +17,7 @@ class NotesController extends Controller
     public function index()
     {
         $notes = Notes::all();
+        
         if (request()->ajax()) {
             return new NotesCollection($notes);
         }
@@ -26,6 +28,7 @@ class NotesController extends Controller
     public function create(){
         return view('notes.create');
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +39,7 @@ class NotesController extends Controller
         $note = $user->notes()->create($request->validated());
 
         if ($request->ajax()) {
-        return new NotesResource($note);
+            return new NotesResource($note);
         }
 
         return redirect(route('notes.show',['id'=>$note->id]));
@@ -83,7 +86,7 @@ class NotesController extends Controller
         if (request()->ajax()) {
             return response()->json(['message'=>'deleted'],200);
         }
-
+        
         return redirect(route('notes.index'));
     }
 }

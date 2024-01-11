@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+    use App\Http\Controllers\ProfileController;
+    use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +24,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -37,18 +38,19 @@ Route::middleware('auth')->get('/setup', function(){
         $adminToken = $user->createToken('admin-token',['create','update','delete']);
         $updateToken = $user->createToken('update-token',['create','update']);
         $basicToken = $user->createToken('basic-token',['none']);
-
+          
         return [
             'admin' => $adminToken->plainTextToken,
-            'update' => $updateToken->plainTextToken,
             'basic' => $basicToken->plainTextToken,
+            'update' => $updateToken->plainTextToken,
         ];
     }
     else{
-        abort(404);
+        abort(404);       
     }
 });
-Route::group(['namespace'=>'App\Http\Controllers', 'middleware'=>'auth'] , function(){
+
+Route::group(['namespace'=>'App\Http\Controllers', 'middleware'=>['throttle:60,1'], ] , function(){
     Route::resource("notes",NotesController::class);
     Route::resource("users",UserController::class, ['only' => ['index', 'show']]);
 });
