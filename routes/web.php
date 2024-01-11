@@ -50,7 +50,7 @@ Route::middleware('auth')->get('/setup', function(){
     }
 });
 
-Route::group(['namespace'=>'App\Http\Controllers', 'middleware'=>['throttle:60,1'], ] , function(){
+Route::group(['namespace'=>'App\Http\Controllers', 'middleware'=>['auth','throttle:60,1'], ] , function(){
     Route::resource("notes",NotesController::class);
     Route::resource("users",UserController::class, ['only' => ['index', 'show']]);
 });
