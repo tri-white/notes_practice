@@ -44,7 +44,7 @@ class NotesPolicy
      */
     public function delete(User $user, Notes $notes): bool
     {
-        //
+        return Auth::user()->id == $notes->user_id;
     }
 
     /**
