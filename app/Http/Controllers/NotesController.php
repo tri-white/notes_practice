@@ -11,6 +11,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use App\Policies\NotesPolicy;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 class NotesController extends Controller
 {
     /**
@@ -20,13 +23,13 @@ class NotesController extends Controller
     {
         // $this->authorize('viewAny');
 
-        $notes = Notes::all();
+        $notes = Notes::paginate(5);
         
         if (request()->ajax()) {
             return new NotesCollection($notes);
         }
 
-        return $notes;
+        return view('notes.index',['notes' => $notes]);
     }
 
     public function create(){

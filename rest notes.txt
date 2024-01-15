@@ -1,0 +1,72 @@
+add pagination
+
+add views for data (bootstrap tables)
+	maybe use components
+
+add image to notes table (using new migration)	
+	add image validation to 100x100 and crop it
+		and store file
+		make storage:link
+	add ability to PUT/PATCH, instead of just PUT like now
+
+make fields nullable,default values etc in migrations
+	check documentation on possible functions
+	
+try to use axios to fetch data too!
+	is axios async?
+
+output author for each note
+	check telescope
+	solve n+1 problem
+	
+
+add ability to show user's notes, by clicking checkbox. 
+	AJAX with query parameters
+		AJAX may be working wrong if the request() works worse than $request
+		try to use with any method that uses request()
+	Do the same with AXIOS (better?)
+		axios.get(url, {
+   body:{},
+   headers: {
+     "X-Requested-With": "XMLHttpRequest", (for request->ajax())
+   },
+ })
+	do the same with FETCH(API)
+
+
+
+find some e-commerce github projects, on which you can see how controllers done
+	(resource controller methods, or are there are other methods)
+	(how to implement roles and tokens)
+	(maybe how to navigate react routes)
+
+
+add roles table if needed
+
+Cross-Origin Resource Sharing (CORS): Implement CORS to control which domains can access your API.
+
+Content Security Policy (CSP): Implement a CSP header to protect against cross-site scripting attacks.
+
+Rate Limiting: Implement rate limiting and throttling to prevent abuse of your API.
+
+
+add 10000 records, check speed of pages, then check queries in Telescope
+
+write PhpUnit tests and other (laravel dusk?)
+	they test work of site without loading it
+		so you can write tests to open different pages etc
+	test sanitizer, validation, axios requests, etc stuff
+
+Response Caching: Cache entire API responses to reduce the load on your server and speed up client requests.
+Data Caching: Cache data that is frequently used in API responses to minimize database queries.
+HTTP Caching: Utilize HTTP caching headers to control how clients cache API responses.
+
+Queue and Job Processing: Use queue systems like Laravel’s built-in queues or R
+edis for background processing to handle resource-intensive tasks.
+
+create documentation (use postman)
+rename github repo from REST to just website
+
+Content Delivery Networks (CDNs): Utilize CDNs to cache and deliver media files and assets.
+
+create localization files and localize your api/frontend
